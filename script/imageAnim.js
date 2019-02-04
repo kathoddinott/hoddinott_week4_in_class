@@ -8,19 +8,43 @@
 		function createPuzzlePieces() {
 			//debugger;
 			pieces.forEach((piece, index) => {
-				let newPuzzlePiece = `<img id="piece${index}" class="puzzle-image" src="images/$(piece + pictureIndex).jpg" alt="thumbnail"
+				let newPuzzlePiece = `<img draggable id="piece${index}" class="puzzle-image" src="images/${piece + pictureIndex}.jpg" alt="thumbnail"`
 
-				piecesBoard.innerHTML +- newPuzzlePiece;
+				piecesBoard.innerHTML += newPuzzlePiece;
+			});
+
+			puzzleBoard.style,backgroundImages = `url(./images/backGround${pictureIndex}.jpg)`;
+		
+		}
+
+		function initDrag() {
+			piecesBBBoards.querySelectorAll('img').forEach(img => {
+				img.addEventListener("dragstart", function(e) {
+					console.log('draggin...')
+
+					e.dataTransfer.setData("text/plain", this.id);
+				});
 			});
 		}
 
-		function resetPuzzlePieces() {
-			//debugger;
+		dropZones.forEach(zone => {
+			zone.addEventListener("dragover", function(e) {
+				e.preventDefault();
+				console.log("you dragged over me!");
+			});
+
+			zone.addEventListener("drop", function(e) {
+				e.preventDefault();
+				console.log("you dropped sumpin on me");
+
+				let piece = e.dataTransfer.getData("text/plain");
+				e.target.appendChild(document.querySelector(`#${piece}`));
+			});
+		})
+
+
+
+		function resetPuzzelPieces() {
+
 		}
-
-		puzzleSelectors.forEach(puzzle => puzzle.addEventListener("click", resetPuzzlePieces))
-
-
-		createPuzzlePieces(0);
-
 })();
